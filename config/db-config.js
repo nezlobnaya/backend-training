@@ -3,7 +3,7 @@ const password = process.env.PASSWORD
 
 
 
-const MONGOURI = `mongodb+srv://vladdich:2LgklBnd1D0YPuh2@cluster0-aidmt.mongodb.net/test?retryWrites=true&w=majority`
+const MONGOURI = `mongodb+srv://vladdic:gJClsn7LJ988qc6z@cluster0-aidmt.mongodb.net/test?retryWrites=true&w=majority`
 
 const InitiateMongoServer = async () => {
     try {

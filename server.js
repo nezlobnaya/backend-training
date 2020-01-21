@@ -10,7 +10,14 @@ const startMongoServer = require('./config/db-config')
 const Todo = require('./todo.model')
 
 startMongoServer()
-app.use(cors())
+app.use(
+    cors({
+      origin: "*",
+      methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+      preflightContinue: false
+    })
+  );
+
 app.use(bodyParser.json())
 
 
@@ -39,7 +46,7 @@ todoRoutes.get('/:id', (req, res) => {
     })
 })
 
-todoRoutes.post('/add', (req,res) => {
+todoRoutes.post('/add',(req,res) => {
     let todo = new Todo (req.body)
     todo.save()
     .then(todo => {
