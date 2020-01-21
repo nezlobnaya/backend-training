@@ -57,24 +57,24 @@ todoRoutes.post('/add',(req,res) => {
     })
 })
 
-todoRoutes.put('/update/:id', (req,res) => {
-    let id = req.params.id 
-    const changes = req.body
-    Todo.findById(id)
-    .then(todo => {
-        if (todo) {
-            Todo.update(changes, id)
-            .then (updatedToDo => {
-                res.json(updatedToDo)
+todoRoutes.route('/update/:id').post(function(req, res) {
+    Todo.findById(req.params.id, function(err, todo) {
+        if (!todo)
+            res.status(404).send('data is not found');
+        else
+            todo.description = req.body.description;
+            todo.responsible = req.body.responsible;
+            todo.priority = req.body.priority;
+            todo.completed = req.body.completed;
+
+            todo.save().then(todo => {
+                res.json('Todo updated');
             })
-        } else {
-            res.status(404).send('data is not found')
-        }
-    })
-    .catch(err => {
-        res.status(500).json({ message: 'Failed to create a todo'})
-    })
-})
+            .catch(err => {
+                res.status(400).send("Update not possible");
+            });
+    });
+});
 
 app.use('/todos', todoRoutes)
 
